@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.server;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

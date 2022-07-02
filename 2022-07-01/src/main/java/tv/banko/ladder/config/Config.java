@@ -1,25 +1,23 @@
-package tv.banko.ladderbingo.config;
+package tv.banko.ladder.config;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import tv.banko.ladderbingo.LadderBingo;
-import tv.banko.ladderbingo.ladder.Task;
-import tv.banko.ladderbingo.ladder.TaskState;
+import tv.banko.ladder.Ladder;
+import tv.banko.ladder.ladder.Task;
+import tv.banko.ladder.ladder.TaskState;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Config {
 
-    private final LadderBingo ladder;
+    private final Ladder ladder;
 
     private final File file;
     private final YamlConfiguration config;
 
-    public Config(LadderBingo ladder) {
+    public Config(Ladder ladder) {
         this.ladder = ladder;
 
         File dir = new File("./plugins/LadderBingo/");
@@ -55,19 +53,21 @@ public class Config {
         }
     }
 
-    public Map<UUID, TaskState> getStatesOfTask(Task task) {
+    public List<TaskState> getStatesOfTask(Task task) {
         String root = "task." + task.getId();
         ConfigurationSection section = config.getConfigurationSection(root);
 
-        Map<UUID, TaskState> map = new HashMap<>();
+        List<TaskState> list = new ArrayList<>();
 
         if(section == null) {
-            return map;
+            return list;
         }
 
-        section.getValues(false).forEach((s, o) -> map.put(UUID.fromString(s.replace(root + ".", "")),
-                TaskState.valueOf(o.toString())));
+        section.getValues(false).forEach((s, o) -> {
+            UUID uuid = UUID.fromString(s.replace(root + ".", ""));
+            list.add(new TaskState(uuid, o.toString()));
+        });
 
-        return map;
+        return list;
     }
 }

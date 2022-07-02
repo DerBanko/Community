@@ -1,12 +1,12 @@
-package tv.banko.ladderbingo.listener;
+package tv.banko.ladder.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemBreakEvent;
-import tv.banko.ladderbingo.ladder.LadderManager;
-import tv.banko.ladderbingo.ladder.TaskState;
-import tv.banko.ladderbingo.ladder.task.BreakItemTask;
+import tv.banko.ladder.ladder.LadderManager;
+import tv.banko.ladder.ladder.TaskState;
+import tv.banko.ladder.ladder.task.BreakItemTask;
 
 public record BreakItemListener(LadderManager manager) implements Listener {
 
@@ -20,11 +20,15 @@ public record BreakItemListener(LadderManager manager) implements Listener {
                 continue;
             }
 
+            if (task.getState(player).getType().equals(TaskState.Type.LOCKED)) {
+                continue;
+            }
+
             if (task.hasReached(player)) {
                 continue;
             }
 
-            task.setState(player, TaskState.REACHED);
+            task.setState(player, TaskState.Type.REACHED);
         }
     }
 }

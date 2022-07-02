@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,7 +15,7 @@ public record QuitListener(Core core) implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        event.quitMessage(Component.text(" - ", NamedTextColor.DARK_GREEN)
+        event.quitMessage(Component.text("- ", NamedTextColor.RED)
                 .append(player.displayName().color(NamedTextColor.GRAY)));
     }
 

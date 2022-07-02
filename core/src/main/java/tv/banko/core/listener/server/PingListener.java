@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.server;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import net.kyori.adventure.text.Component;
@@ -21,7 +21,7 @@ public record PingListener(Core core) implements Listener {
     @EventHandler
     public void onPing(PaperServerListPingEvent event) throws Exception {
         event.setServerIcon(core.getServer().loadServerIcon(new File("./server-icon.png")));
-        event.setMaxPlayers(50);
+        event.setMaxPlayers(core.getServer().getMaxPlayers());
 
         CoreTranslation translation = core.getTranslation();
 

@@ -1,4 +1,4 @@
-package tv.banko.ladderbingo.listener;
+package tv.banko.ladder.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -7,9 +7,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import tv.banko.ladderbingo.ladder.LadderManager;
-import tv.banko.ladderbingo.ladder.TaskState;
-import tv.banko.ladderbingo.ladder.task.KillMobTask;
+import tv.banko.ladder.ladder.LadderManager;
+import tv.banko.ladder.ladder.TaskState;
+import tv.banko.ladder.ladder.task.KillMobTask;
 
 public record KillMobListener(LadderManager manager) implements Listener {
 
@@ -47,11 +47,15 @@ public record KillMobListener(LadderManager manager) implements Listener {
                 continue;
             }
 
+            if (task.getState(player).getType().equals(TaskState.Type.LOCKED)) {
+                continue;
+            }
+
             if (task.hasReached(player)) {
                 continue;
             }
 
-            task.setState(player, TaskState.REACHED);
+            task.setState(player, TaskState.Type.REACHED);
         }
     }
 

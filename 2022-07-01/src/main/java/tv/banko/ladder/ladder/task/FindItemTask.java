@@ -1,4 +1,4 @@
-package tv.banko.ladderbingo.ladder.task;
+package tv.banko.ladder.ladder.task;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -7,10 +7,11 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import tv.banko.ladderbingo.LadderBingo;
-import tv.banko.ladderbingo.ladder.Task;
-import tv.banko.ladderbingo.ladder.TaskState;
-import tv.banko.ladderbingo.util.TaskItem;
+import tv.banko.core.game.GameState;
+import tv.banko.ladder.Ladder;
+import tv.banko.ladder.ladder.Task;
+import tv.banko.ladder.ladder.TaskState;
+import tv.banko.ladder.util.TaskItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class FindItemTask extends Task {
 
     private final Material material;
 
-    public FindItemTask(LadderBingo ladder, int id, Material material) {
+    public FindItemTask(Ladder ladder, int id, Material material) {
         super(ladder, id);
         this.material = material;
     }
@@ -41,10 +42,14 @@ public class FindItemTask extends Task {
 
     @Override
     public boolean hasReached(Player player) {
-        switch (getState(player)) {
+        if (!ladder.getState().equals(GameState.RUNNING)) {
+            return false;
+        }
+
+        switch (getState(player).getType()) {
             case TASK -> {
                 if (player.getInventory().contains(material)) {
-                    setState(player, TaskState.REACHED);
+                    setState(player, TaskState.Type.REACHED);
                     return true;
                 }
 
@@ -57,7 +62,7 @@ public class FindItemTask extends Task {
                         continue;
                     }
 
-                    setState(player, TaskState.REACHED);
+                    setState(player, TaskState.Type.REACHED);
                     return true;
                 }
 
@@ -70,7 +75,7 @@ public class FindItemTask extends Task {
                         continue;
                     }
 
-                    setState(player, TaskState.REACHED);
+                    setState(player, TaskState.Type.REACHED);
                     return true;
                 }
 

@@ -1,0 +1,21 @@
+name: EventCore
+author: DerBanko
+version: 1.0
+main: tv.banko.core.Core
+api-version: 1.16
+description: Core of event
+
+commands:
+  slowchat:
+    description: SlowChat
+  globalmute:
+    description: GlobalMute
+  whitelist:
+    description: Whitelist
+  maxplayers:
+    description: Set Max Players
+  start:
+    description: Start
+  spectate:
+    description: Spectate
+    aliases: [ spec ]

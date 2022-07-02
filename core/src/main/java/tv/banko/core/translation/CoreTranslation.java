@@ -1,8 +1,8 @@
 package tv.banko.core.translation;
 
-public class FunctionTranslation extends Translation {
+public class CoreTranslation extends Translation {
 
-    public FunctionTranslation() {
-        super("function", Translation.class.getClassLoader());
+    public CoreTranslation() {
+        super("core", Translation.class.getClassLoader());
     }
 }

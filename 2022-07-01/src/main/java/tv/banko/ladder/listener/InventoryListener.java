@@ -1,13 +1,13 @@
-package tv.banko.ladderbingo.listener;
+package tv.banko.ladder.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import tv.banko.ladderbingo.ladder.LadderManager;
-import tv.banko.ladderbingo.ladder.inventory.LadderInventory;
-import tv.banko.ladderbingo.ladder.inventory.LadderInventoryHolder;
+import tv.banko.ladder.ladder.LadderManager;
+import tv.banko.ladder.ladder.inventory.LadderInventory;
+import tv.banko.ladder.ladder.inventory.LadderInventoryHolder;
 
 public record InventoryListener(LadderManager manager) implements Listener {
 
@@ -39,11 +39,20 @@ public record InventoryListener(LadderManager manager) implements Listener {
         }
 
         if (item.isSimilar(inventory.getArrowLeft(holder))) {
+
+            if (!inventory.isArrowLeft(holder)) {
+                return;
+            }
+
             player.openInventory(inventory.getInventory(player, holder.taskId() - 1));
             return;
         }
 
         if (!item.isSimilar(inventory.getArrowRight(holder))) {
+            return;
+        }
+
+        if (!inventory.isArrowRight(holder)) {
             return;
         }
 

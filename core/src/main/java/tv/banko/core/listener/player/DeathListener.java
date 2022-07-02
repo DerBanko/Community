@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,7 +21,7 @@ public record DeathListener(Core core) implements Listener {
         }
 
         event.deathMessage(Component.text("† ", NamedTextColor.DARK_GRAY)
-                .append(Component.text(player.getName(), NamedTextColor.BLUE)));
+                .append(Component.text(player.getName(), NamedTextColor.GRAY)));
     }
 
 }

@@ -1,5 +1,14 @@
-name: EventCore
+name: Ladder
 author: DerBanko
 version: 1.0
-main: tv.banko.core.Core
-description: Core of event
+main: tv.banko.ladder.Ladder
+api-version: 1.16
+description: Event on the 1st of July, 2022
+
+depend:
+  - EventCore
+
+commands:
+  ladder:
+    description: Show your ladder
+    aliases: [ l ]

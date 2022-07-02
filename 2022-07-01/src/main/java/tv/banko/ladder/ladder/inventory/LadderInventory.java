@@ -1,4 +1,4 @@
-package tv.banko.ladderbingo.ladder.inventory;
+package tv.banko.ladder.ladder.inventory;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,19 +9,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import tv.banko.core.builder.InventoryBuilder;
 import tv.banko.core.builder.ItemBuilder;
-import tv.banko.ladderbingo.LadderBingo;
-import tv.banko.ladderbingo.ladder.Task;
+import tv.banko.ladder.Ladder;
+import tv.banko.ladder.ladder.Task;
 
-public class LadderInventory {
-
-    private final LadderBingo ladder;
-
-    public LadderInventory(LadderBingo ladder) {
-        this.ladder = ladder;
-    }
+public record LadderInventory(Ladder ladder) {
 
     public Inventory getInventory(Player player) {
-        return getInventory(player, 1);
+        return getInventory(player, ladder.getLadder().getCurrentTask(player).getId());
     }
 
     public Inventory getInventory(Player player, int taskId) {
@@ -46,14 +40,14 @@ public class LadderInventory {
 
         ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
 
-        if (holder.taskId() <= 1) {
-            builder.setDisplayName(Component.text(ladder.getTranslation().get("inventory.left"), NamedTextColor.RED)
-                            .decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.STRIKETHROUGH))
-                    .setBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=");
-        } else {
+        if (isArrowLeft(holder)) {
             builder.setDisplayName(Component.text(ladder.getTranslation().get("inventory.left"), NamedTextColor.BLUE)
                             .decoration(TextDecoration.ITALIC, false))
                     .setBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWFlNzg0NTFiZjI2Y2Y0OWZkNWY1NGNkOGYyYjM3Y2QyNWM5MmU1Y2E3NjI5OGIzNjM0Y2I1NDFlOWFkODkifX19");
+        } else {
+            builder.setDisplayName(Component.text(ladder.getTranslation().get("inventory.left"), NamedTextColor.RED)
+                            .decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.STRIKETHROUGH))
+                    .setBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=");
         }
 
         return builder.build();
@@ -62,16 +56,24 @@ public class LadderInventory {
     public ItemStack getArrowRight(LadderInventoryHolder holder) {
         ItemBuilder builder = new ItemBuilder(Material.PLAYER_HEAD);
 
-        if (holder.taskId() >= 21) {
-            builder.setDisplayName(Component.text(ladder.getTranslation().get("inventory.right"), NamedTextColor.RED)
-                            .decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.STRIKETHROUGH))
-                    .setBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmNmZTg4NDVhOGQ1ZTYzNWZiODc3MjhjY2M5Mzg5NWQ0MmI0ZmMyZTZhNTNmMWJhNzhjODQ1MjI1ODIyIn19fQ==");
-        } else {
+        if (isArrowRight(holder)) {
             builder.setDisplayName(Component.text(ladder.getTranslation().get("inventory.right"), NamedTextColor.BLUE)
                             .decoration(TextDecoration.ITALIC, false))
                     .setBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTE3ZjM2NjZkM2NlZGZhZTU3Nzc4Yzc4MjMwZDQ4MGM3MTlmZDVmNjVmZmEyYWQzMjU1Mzg1ZTQzM2I4NmUifX19");
+        } else {
+            builder.setDisplayName(Component.text(ladder.getTranslation().get("inventory.right"), NamedTextColor.RED)
+                            .decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.STRIKETHROUGH))
+                    .setBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmNmZTg4NDVhOGQ1ZTYzNWZiODc3MjhjY2M5Mzg5NWQ0MmI0ZmMyZTZhNTNmMWJhNzhjODQ1MjI1ODIyIn19fQ==");
         }
 
         return builder.build();
+    }
+
+    public boolean isArrowLeft(LadderInventoryHolder holder) {
+        return holder.taskId() > 1;
+    }
+
+    public boolean isArrowRight(LadderInventoryHolder holder) {
+        return holder.taskId() < 29;
     }
 }

@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.player;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;

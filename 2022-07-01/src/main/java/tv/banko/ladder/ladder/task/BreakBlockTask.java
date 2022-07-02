@@ -1,4 +1,4 @@
-package tv.banko.ladderbingo.ladder.task;
+package tv.banko.ladder.ladder.task;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -7,10 +7,11 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import tv.banko.ladderbingo.LadderBingo;
-import tv.banko.ladderbingo.ladder.Task;
-import tv.banko.ladderbingo.ladder.TaskState;
-import tv.banko.ladderbingo.util.TaskItem;
+import tv.banko.core.game.GameState;
+import tv.banko.ladder.Ladder;
+import tv.banko.ladder.ladder.Task;
+import tv.banko.ladder.ladder.TaskState;
+import tv.banko.ladder.util.TaskItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class BreakBlockTask extends Task {
 
     private final Material material;
 
-    public BreakBlockTask(LadderBingo ladder, int id, Material material) {
+    public BreakBlockTask(Ladder ladder, int id, Material material) {
         super(ladder, id);
         this.material = material;
     }
@@ -45,6 +46,10 @@ public class BreakBlockTask extends Task {
 
     @Override
     public boolean hasReached(Player player) {
-        return getState(player) == TaskState.REACHED;
+        if (!ladder.getState().equals(GameState.RUNNING)) {
+            return false;
+        }
+
+        return getState(player).getType() == TaskState.Type.REACHED;
     }
 }

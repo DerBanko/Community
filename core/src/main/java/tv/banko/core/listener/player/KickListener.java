@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -14,7 +14,7 @@ public record KickListener(Core core) implements Listener {
     public void onKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
 
-        event.leaveMessage(Component.text(" - ", NamedTextColor.DARK_GREEN)
+        event.leaveMessage(Component.text("- ", NamedTextColor.RED)
                 .append(player.displayName().color(NamedTextColor.GRAY)));
     }
 

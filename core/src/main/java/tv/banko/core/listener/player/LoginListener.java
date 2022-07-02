@@ -1,4 +1,4 @@
-package tv.banko.core.listener;
+package tv.banko.core.listener.player;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,16 +21,24 @@ public record LoginListener(Core core) implements Listener {
             return;
         }
 
-        if (game.getState().equals(GameState.WAITING)) {
-            return;
-        }
-
-        if (game.getPlayers().isPlayer(player.getUniqueId())) {
+        if (game.getPlayers().isSpectator(player.getUniqueId())) {
             event.allow();
             return;
         }
 
-        if (game.getPlayers().isSpectator(player.getUniqueId())) {
+        if (game.getState().equals(GameState.WAITING) ||
+                game.getState().equals(GameState.STARTING)) {
+
+            if(core.getServer().getOnlinePlayers().size() >= core.getServer().getMaxPlayers()) {
+                event.disallow(PlayerLoginEvent.Result.KICK_FULL, Component.text(core.getTranslation()
+                        .get("game.full"), NamedTextColor.RED));
+                return;
+            }
+
+            return;
+        }
+
+        if (game.getPlayers().isPlayer(player.getUniqueId())) {
             event.allow();
             return;
         }
